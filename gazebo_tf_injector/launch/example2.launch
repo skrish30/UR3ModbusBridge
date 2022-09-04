@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Example script for gazebo_tf_injector. Allows to control the joint states
+of a simple robot via a GUI. The robot configuration is displayed in Rviz and in
+Gazebo at the same time. -->
+<launch>
+
+    <!-- Specify the robot model file. -->
+    <!-- <arg name="urdf" default="$(find ur_description)/urdf/ur3_robot.urdf.xacro"/> -->
+    <arg name="urdf" default="$(find ur_description)/urdf/model.urdf.xacro"/>
+
+
+    <!-- Upload the robot description to the ROS parameter server. -->
+    <!-- <param name="ur3_description" textfile="$(arg urdf)"/> -->
+    <param name="ur3_description" command="$(find xacro)/xacro '$(find ur_description)/urdf/model.urdf.xacro'" />
+
+    <!-- Start the GUI that lets the user control the states of the individual
+    joints of the robot. -->
+<!--     <node name="ur3_joint_state_publisher" pkg="joint_state_publisher_gui" type="joint_state_publisher_gui">
+        <remap from="robot_description" to="ur3_description"/>
+    </node> -->
+
+    <!-- Use the robot description and the joint states to compute the poses of
+    the robot links. -->
+    <node name="ur3_robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher">
+        <remap from="robot_description" to="ur3_description"/>
+<!--         <param name="tf_prefix" value="ur3"/> -->
+    </node>
+
+    <!-- Display the robot configuration in Rviz. -->
+    <!-- <node name="ur3_rviz" pkg="rviz" type="rviz" args="-d $(find gazebo_tf_injector)/config/example.rviz" required="true"/> -->
+
+    <!-- Start the Gazebo simulator. -->
+    <!-- <node name="gazebo" pkg="gazebo_ros" type="gazebo" args="worlds/empty.world" required="true"/> -->
+
+    <param name="robot_actor" textfile="$(find ur_description)/urdf/model.urdf_actor.sdf"/>
+
+    <node name="ur3_spawn" pkg ="gazebo_ros" type="spawn_model"
+    output="screen" args="-sdf -param robot_actor -model ur3"/>
+
+
+<!--     <node pkg="tf" type="static_transform_publisher"  name="ur3_broadcaster" args="0 0 0 0 0 0 mec_odom/base_link ur3/mount_base 30"/> -->
+
+    <!-- <node pkg="tf" type="static_transform_publisher"  name="ur3_target_Broadcaster" args="0 0 25 0 0 0 mount_base ur3_base_link 20"/> -->
+    
+    <!-- Start the Gazebo simulator. -->
+<!--     <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="world_name" default="worlds/empty.world"/>
+    <arg name="paused" value="true"/>
+    <arg name="gui" value="true"/>
+    </include> -->
+
+
+</launch>
+

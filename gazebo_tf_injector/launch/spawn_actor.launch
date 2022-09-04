@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+    <param name="robot_actor" textfile="$(find ur_description)/urdf/model_actor.sdf"/>
+
+    <node name="ur3_spawn" pkg ="gazebo_ros" type="spawn_model"
+    output="screen" args="-sdf -param robot_actor -model ur3"/>
+
+		
+</launch>

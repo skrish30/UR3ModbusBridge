@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Example script for gazebo_tf_injector. Allows to control the joint states
+of a simple robot via a GUI. The robot configuration is displayed in Rviz and in
+Gazebo at the same time. -->
+<launch>
+	<include file="$(find gazebo_tf_injector)/launch/example2.launch"/>
+	<include file="$(find gazebo_tf_injector)/launch/odomtransformer.launch"/>
+<!-- 	<node name="ar_odom" pkg="camera" type="ar_odom.py" respawn="false" output="screen"/> -->
+</launch>

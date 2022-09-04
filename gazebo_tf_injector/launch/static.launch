@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- Example script for gazebo_tf_injector. Allows to control the joint states
+of a simple robot via a GUI. The robot configuration is displayed in Rviz and in
+Gazebo at the same time. -->
+<launch>
+
+
+    <arg name="xyz1" default="0 0 0"/>
+    <arg name="rpy1" default="0 -1.5707 0"/>
+
+    <arg name="parent_frame1" default="world"/>
+    <arg name="child_frame1" default="world_x_up"/>
+
+
+    <node pkg="tf" type="static_transform_publisher"  name="LARM_sensor_broadcaster1" args="$(arg xyz1) $(arg rpy1) $(arg parent_frame1) $(arg child_frame1) 100"/>
+
+
+</launch>

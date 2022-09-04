@@ -1,0 +1,153 @@
+<?xml version = "1.0"?>
+
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="hokuyo_sensor" >
+  <xacro:macro name="hokuyo" params="prefix">
+
+<!--     #TCP = 45mm 
+    #Triangle with Vertex1 at the top and going in order CW
+    #Vertex1- x: 0       y: 0.0      z:45mm  
+    #Vertex2- x: 0       y: 45sin60  z:-45cos(60)
+    #Vertex3- X: 0       y: -45sin60 z:-45cos(60) -->
+
+  <!-- Hokuyo Laser Front-->
+  <link name="ur3_laser1_link">
+    <inertial>
+      <mass value="1e-5" />
+      <origin xyz="0.0 0 0.0" rpy="0 0 0"/>
+      <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
+    </inertial>
+  </link>
+
+  <link name="ur3_laser2_link">
+    <inertial>
+      <mass value="1e-5" />
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
+    </inertial>
+  </link>
+
+  <link name="ur3_laser3_link">
+    <inertial>
+      <mass value="1e-5" />
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
+    </inertial>
+  </link>
+
+  <joint name="ur3_laser1_joint" type="fixed">
+    <origin xyz="0.0 0 0.045" rpy="0 0 0"/>
+    <axis xyz="0 1 0" />
+    <parent link="ee_link"/>
+    <child link="ur3_laser1_link"/>
+  </joint>
+
+  <joint name="ur3_laser2_joint" type="fixed">
+    <origin xyz="0 -0.03897 -0.0225" rpy="0 0 0"/>
+    <axis xyz="0 1 0" />
+    <parent link="ee_link"/>
+    <child link="ur3_laser2_link"/>
+  </joint>
+
+  <joint name="ur3_laser3_joint" type="fixed">
+    <origin xyz="0 0.03897 -0.0225" rpy="0 0 0"/>
+    <axis xyz="0 1 0" />
+    <parent link="ee_link"/>
+    <child link="ur3_laser3_link"/>
+  </joint>
+
+  <gazebo reference='ur3_laser1_joint'>
+    <preserveFixedJoint>true</preserveFixedJoint>
+  </gazebo>
+
+  <gazebo reference='ur3_laser2_joint'>
+    <preserveFixedJoint>true</preserveFixedJoint>
+  </gazebo>
+
+  <gazebo reference='ur3_laser3_joint'>
+    <preserveFixedJoint>true</preserveFixedJoint>
+  </gazebo>
+
+    <!-- hokuyo -->
+    <gazebo reference="ur3_laser1_link">
+      <sensor type="gpu_ray" name="ur3_laser_sensor1">
+        <pose>0 0 0 0 0 0</pose>
+        <visualize>true</visualize>
+        <update_rate>40</update_rate>
+        <ray>
+          <scan>
+            <horizontal>
+              <samples>3</samples>
+              <resolution>1</resolution>
+              <min_angle>-0.01</min_angle>
+              <max_angle>0.01</max_angle>
+            </horizontal>
+          </scan>
+          <range>
+            <min>0.05</min>
+            <max>30.0</max>
+            <resolution>0.01</resolution>
+          </range>
+        </ray>
+        <plugin name="gazebo_ros_head_hokuyo_controller" filename="libgazebo_ros_gpu_laser.so">
+          <topicName>/ur3/laser1/scan</topicName>
+          <frameName>ee_link</frameName>
+        </plugin>
+      </sensor>
+    </gazebo>
+
+    <gazebo reference="ur3_laser2_link">
+      <sensor type="gpu_ray" name="ur3_laser_sensor2">
+        <pose>0 0 0 0 0 0</pose>
+        <visualize>true</visualize>
+        <update_rate>40</update_rate>
+                <ray>
+          <scan>
+            <horizontal>
+              <samples>3</samples>
+              <resolution>1</resolution>
+              <min_angle>-0.01</min_angle>
+              <max_angle>0.01</max_angle>
+            </horizontal>
+          </scan>
+          <range>
+            <min>0.05</min>
+            <max>30.0</max>
+            <resolution>0.01</resolution>
+          </range>
+        </ray>
+        <plugin name="gazebo_ros_head_hokuyo_controller" filename="libgazebo_ros_gpu_laser.so">
+          <topicName>/ur3/laser2/scan</topicName>
+          <frameName>ee_link</frameName>
+        </plugin>
+      </sensor>
+    </gazebo>
+
+    <gazebo reference="ur3_laser3_link">
+      <sensor type="gpu_ray" name="ur3_laser_sensor3">
+        <pose>0 0 0 0 0 0</pose>
+        <visualize>true</visualize>
+        <update_rate>40</update_rate>
+                <ray>
+          <scan>
+            <horizontal>
+              <samples>3</samples>
+              <resolution>1</resolution>
+              <min_angle>-0.01</min_angle>
+              <max_angle>0.01</max_angle>
+            </horizontal>
+          </scan>
+          <range>
+            <min>0.05</min>
+            <max>30.0</max>
+            <resolution>0.01</resolution>
+          </range>
+        </ray>
+        <plugin name="gazebo_ros_head_hokuyo_controller" filename="libgazebo_ros_gpu_laser.so">
+          <topicName>/ur3/laser3/scan</topicName>
+          <frameName>ee_link</frameName>
+        </plugin>
+      </sensor>
+    </gazebo>
+
+  </xacro:macro>>
+</robot>

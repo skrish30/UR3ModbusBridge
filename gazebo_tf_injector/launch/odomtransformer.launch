@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+    <node name="odom_ur3_odomtransformer" pkg="gazebo_tf_injector" type="odomtransformer.py" output="screen">
+        <!-- <param name="odom_input" value="/vmecanum_gazebo_odom" /> -->
+        <param name="odom_input" value="/mec_odom" />
+        <param name="tf_output" value="/ur3_base_link" />
+    </node>
+</launch>
